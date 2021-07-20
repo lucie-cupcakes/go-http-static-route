@@ -2,19 +2,17 @@ package httpStaticRoute
 
 import (
 	"fmt"
-	"net/http"
 	"os"
 	"path/filepath"
 	"strings"
 
-	"github.com/gabriel-vasile/mimetype"
 	lucieutils "gitlab.com/lucie_cupcakes/lucie-utils"
 )
 
 type StaticFile struct {
-	Contents []byte
-	Path     string
-	MimeType *mimetype.MIME
+	Contents    []byte
+	Path        string
+	ContentType string
 }
 
 func LoadStaticFiles(dirPath string,
@@ -34,7 +32,7 @@ func LoadStaticFiles(dirPath string,
 					var f StaticFile
 					f.Path = path
 					f.Contents = fileBytes
-					f.MimeType = mimetype.Detect(fileBytes)
+					f.ContentType = detectMimeType(path, &fileBytes)
 					path = strings.SplitN(path, "/", 2)[1]
 					staticFiles[path] = &f
 				}
@@ -45,25 +43,4 @@ func LoadStaticFiles(dirPath string,
 		return nil, fmt.Errorf("Error walking staticRoute Filesystem: %s", err.Error())
 	}
 	return &staticFiles, nil
-}
-
-func AddStaticRoutes(staticFiles *map[string]*StaticFile) {
-	sf := *staticFiles
-	for path := range sf {
-		http.HandleFunc("/"+path, func(rw http.ResponseWriter, r *http.Request) {
-			methodOk := false
-			uri := r.URL.EscapedPath()
-			if strings.HasPrefix(uri, "/") {
-				uri = strings.TrimPrefix(uri, "/")
-				if file, ok := sf[uri]; ok {
-					rw.Header().Add("Content-Type", file.MimeType.String())
-					rw.Write(file.Contents)
-					methodOk = true
-				}
-			}
-			if !methodOk {
-				rw.WriteHeader(500)
-			}
-		})
-	}
 }
