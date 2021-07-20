@@ -13,26 +13,27 @@ Grab the module
 
 Add it to your code:
 
-	package main
+```go
+package main
 
-	import (
-		"log"
-		"net/http"
-		httpStaticRoute "github.com/lucie-cupcakes/go-http-static-route"
-	)
+import (
+	"log"
+	"net/http"
+	httpStaticRoute "github.com/lucie-cupcakes/go-http-static-route"
+)
 
-	func main() {
-		staticFiles, err := httpStaticRoute.LoadStaticFiles("./www",
-		func(filePath string) bool {
-			return true
-		})
-		if err != nil {
-			panic(err)
-		}
-		httpStaticRoute.AddStaticRoutes(staticFiles)
-		log.Fatal(http.ListenAndServe(":8000", nil))
+func main() {
+	staticFiles, err := httpStaticRoute.LoadStaticFiles("./www",
+	func(filePath string) bool {
+		return true
+	})
+	if err != nil {
+		panic(err)
 	}
-
+	httpStaticRoute.AddStaticRoutes(staticFiles)
+	log.Fatal(http.ListenAndServe(":8000", nil))
+}
+```
 Enjoy!
 
 # beta software
