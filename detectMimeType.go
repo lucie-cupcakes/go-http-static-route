@@ -11,23 +11,32 @@ func detectMimeType(path string, data *[]byte) string {
 	// Fast path based on file name
 	if strings.HasSuffix(path, ".html") {
 		return "text/html"
-	} else if strings.HasSuffix(path, ".js") {
+	}
+	if strings.HasSuffix(path, ".js") {
 		return "text/javascript"
-	} else if strings.HasSuffix(path, ".css") {
+	}
+	if strings.HasSuffix(path, ".css") {
 		return "text/css"
-	} else if strings.HasSuffix(path, ".json") {
+	}
+	if strings.HasSuffix(path, ".json") {
 		return "application/json"
-	} else if strings.HasSuffix(path, ".xml") {
+	}
+	if strings.HasSuffix(path, ".xml") {
 		return "application/xml"
-	} else if strings.HasSuffix(path, ".webp") {
+	}
+	if strings.HasSuffix(path, ".webp") {
 		return "image/webp"
-	} else if strings.HasSuffix(path, ".jpg") {
+	}
+	if strings.HasSuffix(path, ".jpg") {
 		return "image/jpeg"
-	} else if strings.HasSuffix(path, ".png") {
+	}
+	if strings.HasSuffix(path, ".png") {
 		return "image/png"
-	} else if strings.HasSuffix(path, ".svg") {
+	}
+	if strings.HasSuffix(path, ".svg") {
 		return "image/svg+xml"
-	} else if strings.HasPrefix(path, ".ico") {
+	}
+	if strings.HasPrefix(path, ".ico") {
 		return "image/vnd.microsoft.icon"
 	}
 
